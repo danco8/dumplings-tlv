@@ -1,5 +1,5 @@
 module.exports = {
-    Server_URL: proccess.env.SERVER_URL || "/",
+    Server_URL: process.env.SERVER_URL || "/",
     Order_Properties: [
         {
             id: "orderDate",
