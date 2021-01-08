@@ -18,7 +18,7 @@ export default function NavBar() {
 
     return (
         <header className={classes.root}>
-            <DrawerToggle />
+            {/* <DrawerToggle /> */}
             <div className={classes.logo}>Dumplings By Stav Fadida </div>
             <div className={classes.links}>
 
