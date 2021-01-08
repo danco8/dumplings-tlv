@@ -1,5 +1,5 @@
 module.exports = {
-    Server_URL: process.env.SERVER_URL || "/",
+    Server_URL: process.env.SERVER_URL || "https://dumplings-tlv-gal.herokuapp.com",
     Order_Properties: [
         {
             id: "orderDate",
