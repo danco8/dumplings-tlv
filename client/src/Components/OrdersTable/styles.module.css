@@ -1,0 +1,17 @@
+.root{
+    width: 100%;
+    margin-top:2%;
+}
+.container{
+    max-height: 540;
+}
+.cell{
+    font-family: 'Varela Round', sans-serif !important;
+    align-content: right !important;
+    float: center;
+}
+
+.input{
+    font-family: 'Varela Round', sans-serif !important;
+    text-align: right !important;
+}

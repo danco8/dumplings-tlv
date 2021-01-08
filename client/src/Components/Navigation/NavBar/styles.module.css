@@ -1,0 +1,36 @@
+.root{
+    text-align: right;
+    background-color: #f5eda9e7;
+    padding: 0.2%;
+    margin:0;
+}
+.links{
+    left:0;
+    text-align: left;
+} 
+.link{
+    color:black;
+    text-decoration: none;
+    padding-right: 2%;
+}
+.link:hover{
+    color: gray;
+}
+.loginLink{
+    font-weight: bold;
+}
+.gesture{
+    margin-left: 50%;
+    display: flex;
+    flex-flow: row;
+}
+
+.buttonWrapper{
+    width: 40%;
+}
+
+@media (max-width: 499px) {
+    .DesktopOnly {
+        display: none;
+    }
+}

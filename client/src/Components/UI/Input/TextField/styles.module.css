@@ -1,0 +1,17 @@
+   .input{
+        color: #333;
+        width: 80%;
+        letter-spacing: 1px;
+        display: flex;
+        align-self:  flex-start;
+        font-family: 'Varela Round', sans-serif;    
+        border: 1px solid #ccc;
+        padding: 7px 14px;
+        background: transparent;
+    }
+
+    .input:focus{
+        outline: none;
+        border: 2px solid #f3df2a;
+        
+    }
