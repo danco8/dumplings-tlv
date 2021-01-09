@@ -8,6 +8,7 @@
         border: 1px solid #ccc;
         padding: 7px 14px;
         background: transparent;
+        margin: auto;
     }
 
     .input:focus{
