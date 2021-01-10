@@ -27,16 +27,7 @@ app.use(helmet());
 app.use(compression());
 app.use(morgan('combined', { stream: accessLogStream }));
 
-app.use(bodyParser.json()); // application/json
-
-// app.use((req, res, next) => {
-//     res.setHeader('Accsess-Control-Allow-Origin', '*');
-//     res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET, POST, PUT, PATCH, DELETE');
-//     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-//     next();
-// });
-
-
+app.use(bodyParser.json());
 
 app.use('/auth', authRoutes);
 app.use('/', ordersRoutes);
