@@ -33,7 +33,7 @@ export default function DataTable(props) {
                                 <TableRow hover key={row.code}>
                                     <TableCell key={row._id + Date.now().toString()} >
                                         {props.isOrderInEditMode(row._id) ?
-                                            <DoneOutlineIcon onClick={() => props.DoneEditClick(row._id)} />
+                                            <DoneOutlineIcon onClick={() => props.DoneEditClick(row._id)} className={classes.doneIcon} />
                                             :
                                             <><DeleteIcon onClick={() => props.handleOpenDeleteModal(row)} className={classes.deleteIcon} /> <EditIcon onClick={() => props.OpenEditClick(row._id)} className={classes.editIcon} /> </>
                                         }

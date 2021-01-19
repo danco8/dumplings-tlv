@@ -20,6 +20,15 @@
 
 .editIcon{
     margin-left: 15px;
+    cursor:pointer;
+}
+
+.doneIcon{
+    cursor:pointer;
+}
+
+.deleteIcon{
+    cursor:pointer;
 }
 
 .editIcon:hover{
