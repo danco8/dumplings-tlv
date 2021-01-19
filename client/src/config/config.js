@@ -1,5 +1,5 @@
 module.exports = {
-    Server_URL: process.env.SERVER_URL || "https://dumplings-tlv-gal.herokuapp.com",
+    Server_URL: process.env.SERVER_URL || "http://localhost:8080",
     Order_Properties: [
         {
             id: "orderDate",
