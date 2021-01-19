@@ -35,7 +35,7 @@ export default function DataTable(props) {
                                         {props.isOrderInEditMode(row._id) ?
                                             <DoneOutlineIcon onClick={() => props.DoneEditClick(row._id)} />
                                             :
-                                            <><DeleteIcon onClick={() => props.OpenEditClick(row._id)} className={classes.deleteIcon} /> <EditIcon onClick={() => props.OpenEditClick(row._id)} className={classes.editIcon} /> </>
+                                            <><DeleteIcon onClick={() => props.handleOpenDeleteModal(row)} className={classes.deleteIcon} /> <EditIcon onClick={() => props.OpenEditClick(row._id)} className={classes.editIcon} /> </>
                                         }
                                     </TableCell>
                                     {props.columns.map((column) => {

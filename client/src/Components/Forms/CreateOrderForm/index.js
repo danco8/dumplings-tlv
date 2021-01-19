@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import Input from '../UI/Input';
 import classes from './styles.module.css';
-import { Order_Properties } from '../../config/config';
-import Button from '../UI/Button/index';
+import Input from '../../UI/Input';
+import Button from '../../UI/Button';
+import { Order_Properties } from '../../../config/config';
 
 export default function CreateOrderForm(props) {
 
@@ -21,6 +21,7 @@ export default function CreateOrderForm(props) {
     const createOrderHandler = () => {
         if (requiredFieldExist(order)) {
             props.createOrderHandler(order);
+            setOrder({});
         }
         else {
             console.log('error at validation');

@@ -5,17 +5,19 @@ import { Server_URL } from '../../config/config'
 
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
-import Table from '../../Components/OrdersTable/index';
+import OrdersTable from '../../Components/OrdersTable/index';
 import Modal from '../../Components/UI/Modal/index'
-import CreateOrderForm from '../../Components/CreateOrderForm/index';
+import CreateOrderForm from '../../Components/Forms/CreateOrderForm/index';
 import Button from '../../Components/UI/Button/index';
+import DeleteOrderForm from '../../Components/Forms/DeleteOrderForm';
 
 export default function OrdersView() {
 
     const [orders, setOrders] = useState([]);
     const [creatingOrder, setCreatingOrder] = useState(false);
     const [error, setError] = useState('');
-    const [orderCreated, setOrderCreated] = useState(false);
+    const [successMessage, setSuccessMessage] = useState(null);
+    const [deletingOrder, setDeletingOrder] = useState(null);
 
     const fetchOrders = () => {
         axios.get(`${Server_URL}/orders`).then(result => {
@@ -30,6 +32,7 @@ export default function OrdersView() {
         fetchOrders();
     }, []);
 
+
     const updateOrder = (order) => {
         axios.put(`${Server_URL}/order/${order._id}`, order)
             .then(result => {
@@ -38,12 +41,12 @@ export default function OrdersView() {
             });
     }
 
-    const createOrderHandler = (order) => {
+    const createOrder = (order) => {
         axios.post(`${Server_URL}/order`, order)
             .then(res => {
                 console.log(res);
                 CloseCreateOrderModal();
-                setOrderCreated(true);
+                setSuccessMessage('הזמנה נוצרה בהצלחה');
                 fetchOrders();
             })
             .catch(err => {
@@ -66,6 +69,27 @@ export default function OrdersView() {
         setCreatingOrder(false);
     }
 
+    const deleteOrderHandler = () => {
+        if (deletingOrder._id) {
+            axios.delete(`${Server_URL}/order/${deletingOrder._id}`)
+                .then(result => {
+                    fetchOrders();
+                    setSuccessMessage('ההזמנה נמחקה בהצלחה');
+                }).catch(err => {
+                    console.log(err);
+                });
+        }
+        CloseDeleteOrderModal();
+    }
+
+    const OpenDeleteModal = (order) => {
+        setDeletingOrder(order);
+    }
+
+    const CloseDeleteOrderModal = () => {
+        setDeletingOrder(null);
+    }
+
     function Alert(props) {
         return <MuiAlert elevation={6} variant="filled" {...props} />;
     }
@@ -74,26 +98,29 @@ export default function OrdersView() {
     }
 
     const handleCloseSuccess = () => {
-        setOrderCreated(false);
+        setSuccessMessage(null);
     }
 
     return (
         <div className={styles.container}>
             <Modal show={creatingOrder} modalClosed={CloseCreateOrderModal}>
-                <CreateOrderForm modalClosed={CloseCreateOrderModal} createOrderHandler={createOrderHandler} createOrderFailHandler={createOrderFailHandler} />
+                <CreateOrderForm modalClosed={CloseCreateOrderModal} createOrderHandler={createOrder} createOrderFailHandler={createOrderFailHandler} />
             </Modal>
-            <Table rows={orders} serRows={(newRows) => setOrders(newRows)} updateRow={(order) => updateOrder(order)} />
-            <Button className={styles.button} clicked={OpenCreateOrderModal}>הזמנה חדשה + </Button>
+            <Modal show={deletingOrder !== null} modalClosed={CloseDeleteOrderModal}>
+                {deletingOrder ? <DeleteOrderForm order={deletingOrder} modalClosed={CloseDeleteOrderModal} deleteOrderHandler={deleteOrderHandler} /> : null}
+            </Modal>
+            <OrdersTable rows={orders} setRows={(newRows) => setOrders(newRows)} updateRow={(order) => updateOrder(order)} deleteOrder={deleteOrderHandler} OpenDeleteModal={(order) => OpenDeleteModal(order)} />
+            <Button className={styles.button} clicked={OpenCreateOrderModal} >הזמנה חדשה + </Button>
             {error ? <p>{error}</p> : null}
 
-            {error !== '' ? <Snackbar open={true} autoHideDuration={6000} >
+            {error !== '' ? <Snackbar open={true} autoHideDuration={10} >
                 <Alert onClose={handleCloseError} severity="error">
                     {error}
                 </Alert>
             </Snackbar> : null}
-            {orderCreated ? <Snackbar open={true} autoHideDuration={6000} >
+            {successMessage !== null ? <Snackbar open={true} >
                 <Alert onClose={handleCloseSuccess} severity="success">
-             ההזמנה נוספה בהצלחה
+                    {successMessage}
                 </Alert>
             </Snackbar> : null}
 

@@ -12,7 +12,7 @@ export default function Modal(props) {
             opacity: props.show ? '1' : '0'
         }}>
         {props.children}
-    </div>, [props.show, props.children]);
+     </div>, [props.show, props.children]);
     return (
         <>
             <Backdrop show={props.show} clicked={props.modalClosed} />

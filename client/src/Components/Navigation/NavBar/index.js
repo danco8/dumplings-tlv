@@ -1,8 +1,6 @@
 import React from 'react';
 import classes from './styles.module.css';
 import { useAuth } from '../../../context/auth';
-import DrawerToggle from '../DrawerToggle/index';
-import Button from '../../UI/Button/index';
 
 export default function NavBar() {
 

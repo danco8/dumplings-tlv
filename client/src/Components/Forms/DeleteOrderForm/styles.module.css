@@ -1,0 +1,19 @@
+.root{
+    display: flex;
+    flex-flow: column;
+}
+
+.cell{
+    text-align: right;
+}
+
+
+.header{
+    align-self: center;
+    padding-bottom: 7%;
+}
+
+.table{
+    padding-bottom: 5%;
+    
+}

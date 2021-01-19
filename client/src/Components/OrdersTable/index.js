@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { productTypeParse } from '../../util/Parser'
 
 import DataTable from './Table/index';
+import Modal from '../UI/Modal';
+import DeleteOrderForm from '../Forms/DeleteOrderForm';
 
 export default function OrdersTable(props) {
 
@@ -41,9 +43,10 @@ export default function OrdersTable(props) {
         }
     ];
 
-    const [editModeRows, setEditModeRows] = React.useState([]);
-    const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const [editModeRows, setEditModeRows] = useState([]);
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
+    // const [deletingOrder, setDeletingOrder] = useState(null);
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -58,7 +61,7 @@ export default function OrdersTable(props) {
         return editModeRows.includes(_id);
     }
 
-    const handleOpenEditClick = (_id) => {
+    const handleOpenEditOrder = (_id) => {
         let tempEditModeRows;
         if (!isOrderInEditMode(_id)) {
             tempEditModeRows = [...editModeRows, _id];
@@ -66,12 +69,25 @@ export default function OrdersTable(props) {
         }
     }
 
-    const handleDoneEditClick = (_id) => {
+    const handleDoneEditOrder = (_id) => {
         const updatedRow = props.rows.find(row => row._id === _id);
         props.updateRow(updatedRow);
         const tempEditModeRows = editModeRows.filter(row => row !== _id);
         setEditModeRows(tempEditModeRows);
     }
+
+    // const OpenDeleteModal = (order) => {
+    //     setDeletingOrder(order);
+    // }
+
+    // const CloseDeleteOrderModal = () => {
+    //     setDeletingOrder(null);
+    // }
+
+    // const deleteOrderHandler = () => {
+    //     props.deleteOrder(deletingOrder);
+    //     CloseDeleteOrderModal();
+    // }
 
     const inputChangedHandler = (event, _id, column) => {
         let value = event.target.value;
@@ -84,24 +100,28 @@ export default function OrdersTable(props) {
             }
             return row;
         })
-
-        props.serRows([...newRows]);
-
+        props.setRows([...newRows]);
     }
 
+
     return (
-        <DataTable
-            columns={columns}
-            rows={props.rows}
-            DoneEditClick={handleDoneEditClick}
-            OpenEditClick={handleOpenEditClick}
-            OpenEditClick={handleOpenEditClick}
-            ChangePage={handleChangePage}
-            ChangeRowsPerPage={handleChangeRowsPerPage}
-            rowsPerPage={rowsPerPage}
-            inputChanegd={inputChangedHandler}
-            page={page}
-            isOrderInEditMode={isOrderInEditMode}
-        />
+        <>
+            {/* <Modal show={deletingOrder !== null} modalClosed={CloseDeleteOrderModal}>
+                {deletingOrder ? <DeleteOrderForm order={deletingOrder} modalClosed={CloseDeleteOrderModal} deleteOrderHandler={deleteOrderHandler} /> : null}
+            </Modal> */}
+            <DataTable
+                columns={columns}
+                rows={props.rows}
+                DoneEditClick={handleDoneEditOrder}
+                OpenEditClick={handleOpenEditOrder}
+                ChangePage={handleChangePage}
+                ChangeRowsPerPage={handleChangeRowsPerPage}
+                rowsPerPage={rowsPerPage}
+                inputChanegd={inputChangedHandler}
+                page={page}
+                isOrderInEditMode={isOrderInEditMode}
+                handleOpenDeleteModal={props.OpenDeleteModal}
+            />
+        </>
     );
 }
