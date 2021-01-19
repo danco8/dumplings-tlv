@@ -1,5 +1,14 @@
-.option{
-    font-family: 'Varela Round', sans-serif !important;
-    text-align: right !important;
-}
-
+.select {
+    color: #333;
+    width: 80%;
+    letter-spacing: 1px;
+    display: flex;
+    align-self:  flex-start;
+    font-family: 'Varela Round', sans-serif;    
+    border: 1px solid #ccc;
+    padding: 7px 14px;
+    margin: auto;
+    outline: none;
+    direction: rtl;
+  }
+  

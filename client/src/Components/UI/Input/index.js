@@ -1,6 +1,5 @@
 import React from 'react';
 
-import styles from './styles.module.css';
 import ListInput from './DropDownList/index';
 import TextInput from './TextField/index';
 
