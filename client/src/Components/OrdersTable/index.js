@@ -1,13 +1,8 @@
 import React from 'react';
 
-import classes from './styles.module.css';
-
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TablePagination } from '@material-ui/core';
-import { Edit as EditIcon } from '@material-ui/icons';
-import DoneOutlineIcon from '@material-ui/icons/DoneOutline';
-import Input from '../UI/Input/index';
 import { productTypeParse } from '../../util/Parser'
 
+import DataTable from './Table/index';
 
 export default function OrdersTable(props) {
 
@@ -72,10 +67,6 @@ export default function OrdersTable(props) {
     }
 
     const handleDoneEditClick = (_id) => {
-        // send request to update data of this order in DB
-        // if value not valid = > pop a toaster and don't edit
-
-
         const updatedRow = props.rows.find(row => row._id === _id);
         props.updateRow(updatedRow);
         const tempEditModeRows = editModeRows.filter(row => row !== _id);
@@ -99,71 +90,18 @@ export default function OrdersTable(props) {
     }
 
     return (
-        <Paper className={classes.root}>
-            <TableContainer className={classes.container}>
-                <Table stickyHeader aria-label="sticky table" >
-                    <TableHead>
-                        <TableRow>
-                            <TableCell id='editColumn' key='editColumn' className={classes.cell}> </TableCell>
-                            {columns.map((column) => (
-                                <TableCell
-                                    key={column._id}
-                                    align={column.align}
-                                    style={{ minWidth: column.minWidth }}
-                                    className={classes.cell}>
-                                    {column.label}
-                                </TableCell>
-                            ))}
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {props.rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                            return (
-                                <TableRow hover key={row.code}>
-                                    <TableCell key={row._id + Date.now().toString()} >
-                                        {isOrderInEditMode(row._id) ?
-                                            <DoneOutlineIcon onClick={() => handleDoneEditClick(row._id)} />
-                                            :
-                                            <EditIcon onClick={() => handleOpenEditClick(row._id)} />
-                                        }
-                                    </TableCell>
-                                    {columns.map((column) => {
-                                        const value = row[column.id];
-                                        if (isOrderInEditMode(row._id) && column.id !== '_id') {
-                                            return (
-                                                <TableCell key={column.id} align={column.align} className={classes.cell}>
-                                                    <Input
-                                                        value={value}
-                                                        changed={(event) => inputChangedHandler(event, row._id, column)}
-                                                        inputType={column.id}
-                                                        className={classes.input}
-                                                    />
-                                                </TableCell>
-                                            )
-                                        } else {
-                                            return (
-                                                <TableCell key={column.id} align="right" className={classes.cell}>
-                                                    {column.format && typeof value === 'number' ? column.format(value) : value}
-                                                </TableCell>
-                                            );
-                                        }
-                                    }
-                                    )}
-                                </TableRow>
-                            );
-                        })}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-            <TablePagination
-                rowsPerPageOptions={[10, 25, 100]}
-                component="div"
-                count={props.rows.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onChangePage={handleChangePage}
-                onChangeRowsPerPage={handleChangeRowsPerPage}
-            />
-        </Paper>
+        <DataTable
+            columns={columns}
+            rows={props.rows}
+            DoneEditClick={handleDoneEditClick}
+            OpenEditClick={handleOpenEditClick}
+            OpenEditClick={handleOpenEditClick}
+            ChangePage={handleChangePage}
+            ChangeRowsPerPage={handleChangeRowsPerPage}
+            rowsPerPage={rowsPerPage}
+            inputChanegd={inputChangedHandler}
+            page={page}
+            isOrderInEditMode={isOrderInEditMode}
+        />
     );
 }
