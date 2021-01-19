@@ -64,3 +64,25 @@ exports.updateOrder = (req, res, next) => {
             next(err);
         });
 };
+
+exports.deleteOrder = (req, res, next) => {
+    const orderId = req.params.orderId;
+    Order.findById(orderId)
+        .then(order => {
+            if (!order) {
+                const error = new Error('Could not find order');
+                error.statusCode = 404;
+                throw error;
+            }
+            return Order.findByIdAndRemove(orderId);
+        })
+        .then(result => {
+            res.status(200).json({ message: `Deleted order ${orderId}` });
+        })
+        .catch(err => {
+            if (!err.statusCode) {
+                err.statusCode = 500;
+            }
+            next(err);
+        })
+};
