@@ -16,7 +16,8 @@ export default function ChartsView() {
 
     useEffect(() => {
         axios.get(`${Server_URL}/orders`).then(result => {
-            const groupedOrdersByType = _.groupBy(result.data.orders, function (order) { return order.type });
+            const groupedOrdersByType = _.groupBy(result.data.orders, function (order) { return order.type.trim() });
+
             const catagoriesByType = Object.keys(groupedOrdersByType)
             setCatagoriesByType(catagoriesByType);
             const dataByType = catagoriesByType.map(type => {
@@ -24,7 +25,7 @@ export default function ChartsView() {
             })
             setDataByType(dataByType);
 
-            const groupedOrdersByCostumer = _.groupBy(result.data.orders, function (order) { return order.costumerName });
+            const groupedOrdersByCostumer = _.groupBy(result.data.orders, function (order) { return order.costumerName.trim() });
             const catagoriesByCostumer = Object.keys(groupedOrdersByCostumer);
             setCatagoriesByCostumer(catagoriesByCostumer);
             const dataByCostumer = catagoriesByCostumer.map(type => {

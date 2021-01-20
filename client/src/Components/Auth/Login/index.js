@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { Link, Redirect } from "react-router-dom";
 import axios from 'axios';
-import classes from './style.module.css';
-import { Form, Error } from '../AuthForm';
+import classes from './styles.module.css';
 import Button from '../../UI/Button';
 import Input from '../../UI/Input/TextField/index';
 import { useAuth } from '../../../context/auth';
@@ -39,7 +38,7 @@ function Login(props) {
 
   return (
     <div className={classes.container} >
-      <Form>
+      <div className={classes.form}>
         <Input
           type="email"
           dir="ltr"
@@ -59,9 +58,9 @@ function Login(props) {
           placeholder="password"
         />
         <Button clicked={postLogin}>Sign In</Button>
-      </Form>
+      </div>
       <Link className={classes.link} to="/signup">Don't have an account?</Link>
-      {isError && <Error>The email or password provided were incorrect!</Error>}
+      {isError && <div className={classes.error}>The email or password provided were incorrect!</div>}
     </div>
   );
 }
